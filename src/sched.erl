@@ -4,6 +4,7 @@
     run/3
 ]).
 
+-spec run(fun((pid(), term()) -> ok), [term()], integer()) -> [term()].
 run(F, List, Max) ->
     run(F, List, Max, 0, []).
 
