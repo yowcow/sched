@@ -13,7 +13,7 @@
 -type jobs() :: [term()].
 -type result() :: [term()].
 -type state() :: #{
-    f := callback(),
+    cb := callback(),
     jobs := jobs(),
     max := integer(),
     cur := integer()
