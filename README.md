@@ -14,10 +14,10 @@ How to Use
 ----------
 
     Result = sched:run(
-        fun(From, V) ->
+        fun(V) ->
           % do a slow task on given V, such as:
           timer:sleep(rand:uniform(100)),
-          From ! V + 1
+          V + 1
         end,
         [1, 2, 3, 4, 5],
         3
@@ -25,4 +25,10 @@ How to Use
 
 and the result will be:
 
-    [2, 3, 4, 5, 6]
+    [
+        {ok, 2},
+        {ok, 3},
+        {ok, 4},
+        {ok, 5},
+        {ok, 6}
+    ]

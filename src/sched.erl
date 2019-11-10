@@ -9,7 +9,7 @@
     result/0
 ]).
 
--type callback() :: fun((pid(), term()) -> ok).
+-type callback() :: fun((term()) -> term()).
 -type jobs() :: [term()].
 -type result() :: [term()].
 -type state() :: #{
@@ -47,7 +47,19 @@ run(#{cb := F, jobs := [Job|Jobs], cur := Cur} = State, Acc) ->
 
 work(F, Job) ->
     Self = self(),
-    spawn_link(fun() -> apply(F, [Self, Job]) end),
+    spawn_link(fun() ->
+        try apply(F, [Job]) of
+            Ret ->
+                Self ! {ok, Ret}
+        catch
+            throw:Term ->
+                Self ! {throw, Term};
+            exit:Reason ->
+                Self ! {exit, Reason};
+            error:Reason:Stk ->
+                Self ! {error, {Reason, Stk}}
+        end
+    end),
     ok.
 
 wait() ->
