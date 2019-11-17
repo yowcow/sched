@@ -1,5 +1,15 @@
 language: erlang
 
 otp_release:
-  - 21.3
-  - 21.2
+  - "22.1"
+  - "22.0"
+  - "21.3"
+  - "21.2"
+  - "21.1"
+  - "21.0"
+
+before_script:
+  - make
+
+script:
+  - make test
